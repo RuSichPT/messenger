@@ -2,11 +2,13 @@ package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.models.User;
 import com.github.rusichpt.Messenger.repositories.UserRepository;
+import com.github.rusichpt.Messenger.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -29,7 +31,7 @@ public class UserServiceImpl implements UserService {
 
         user.setPassword(encoder.encode(user.getPassword()));
         user1 = userRepo.save(user);
-        log.info("User: {} is created", user1);
+        log.info("User: {} created", user1);
 
         return user1;
     }
@@ -37,10 +39,16 @@ public class UserServiceImpl implements UserService {
     @Override
     public void deleteById(Long id) {
         userRepo.deleteById(id);
+        log.info("User with id: {} deleted", id);
     }
 
     @Override
     public Optional<User> findById(Long id) {
         return userRepo.findById(id);
+    }
+
+    @Override
+    public List<User> findAll() {
+        return userRepo.findAll();
     }
 }

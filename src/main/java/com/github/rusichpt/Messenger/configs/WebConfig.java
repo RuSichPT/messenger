@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.configs;
 
 import com.github.rusichpt.Messenger.models.User;
-import com.github.rusichpt.Messenger.services.impl.UserService;
+import com.github.rusichpt.Messenger.services.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
