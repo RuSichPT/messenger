@@ -1,5 +1,6 @@
 package com.github.rusichpt.Messenger.models;
 
+import com.github.rusichpt.Messenger.dto.UserProfile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
@@ -26,4 +27,15 @@ public class User {
     private String username;
     private String name;
     private String surname;
+
+    public void setProfile(UserProfile profile) {
+        username = profile.getUsername();
+        email = profile.getEmail();
+        name = profile.getName();
+        surname = profile.getSurname();
+    }
+
+    public UserProfile getProfile() {
+        return new UserProfile(username, email, name, surname);
+    }
 }

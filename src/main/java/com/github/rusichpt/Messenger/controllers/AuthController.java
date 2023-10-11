@@ -29,7 +29,7 @@ public class AuthController {
     @PostMapping(path = "/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public SignupResponse registerUser(@Valid @RequestBody SignupRequest request) {
-        userService.save(request.toUser());
+        userService.createUser(request.toUser());
         return new SignupResponse("User created");
     }
 

@@ -17,8 +17,8 @@ public class WebConfig {
                     "user1", "Pavel", "Tokarev");
             User user2 = new User(null, "user2@mail.ru", "321",
                     "user2", "Alex", "Firov");
-            userService.save(user1);
-            userService.save(user2);
+            userService.createUser(user1);
+            userService.createUser(user2);
             log.info("DataLoader loaded data");
         };
     }
