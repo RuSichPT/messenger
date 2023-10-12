@@ -5,25 +5,27 @@ import com.github.rusichpt.Messenger.dto.AuthRequest;
 import com.github.rusichpt.Messenger.dto.AuthResponse;
 import com.github.rusichpt.Messenger.dto.SignupRequest;
 import com.github.rusichpt.Messenger.dto.SignupResponse;
+import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.models.UserDetailsImpl;
 import com.github.rusichpt.Messenger.services.UserService;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(path = "/api/v1/auth",
         produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
+@Tag(name = "Authentication")
 public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
-    private final UserDetailsService userDetailsService;
     private final UserService userService;
 
     @PostMapping(path = "/signup")
@@ -39,10 +41,13 @@ public class AuthController {
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),
                         request.getPassword()
-                )
-        );
-        UserDetails user = userDetailsService.loadUserByUsername(request.getUsername());
+                ));
+        User user = userService.findUserByUsername(request.getUsername());
+        return new AuthResponse(jwtUtils.generateToken(user.getId().toString()));
+    }
 
-        return new AuthResponse(jwtUtils.generateToken(user));
+    @PostMapping(path = "/signout")
+    public void logoutUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+
     }
 }

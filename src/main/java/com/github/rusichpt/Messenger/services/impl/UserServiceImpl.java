@@ -7,12 +7,12 @@ import com.github.rusichpt.Messenger.services.UserService;
 import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Slf4j
@@ -41,13 +41,15 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Optional<User> findUserById(Long id) {
-        return userRepo.findById(id);
+    public User findUserById(Long id) {
+        return userRepo.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User not found"));
     }
 
     @Override
-    public Optional<User> findUserByUsername(String username) {
-        return userRepo.findByUsername(username);
+    public User findUserByUsername(String username) {
+        return userRepo.findByUsername(username).orElseThrow(
+                () -> new UsernameNotFoundException("User ‘" + username + "’ not found"));
     }
 
     @Override
@@ -56,26 +58,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public UserProfile updateUserProfileByUsername(String username, UserProfile profile) {
-        User user = userRepo.findByUsername(username).orElseThrow();
+    public UserProfile updateUserProfileById(Long id, UserProfile profile) {
+        User user = userRepo.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User ‘" + profile.getUsername() + "’ not found"));
         user.setProfile(profile);
         UserProfile newProfile = userRepo.save(user).getProfile();
-        log.info("User: {} updated profile: {}", username, newProfile);
+        log.info("User with id: {} updated profile: {}", id, newProfile);
         return newProfile;
     }
 
     @Override
-    public void updateUserPasswordByUsername(String username, @NotNull String password) {
-        User user = userRepo.findByUsername(username).orElseThrow();
+    public void updateUserPasswordById(Long id, @NotNull String password) {
+        User user = userRepo.findById(id).orElseThrow(
+                () -> new UsernameNotFoundException("User not found"));
         user.setPassword(encoder.encode(password));
         userRepo.save(user);
-        log.info("User: {} updated password", username);
+        log.info("User with id: {} updated password", id);
     }
 
     @Override
-    public void deleteUserByUsername(String username) {
-        userRepo.deleteByUsername(username);
-        log.info("User with id: {} deleted", username);
+    public void deleteUserById(Long id) {
+        userRepo.deleteById(id);
+        log.info("User with id: {} deleted", id);
     }
 
 

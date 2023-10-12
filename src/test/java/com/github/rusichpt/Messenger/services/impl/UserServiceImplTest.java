@@ -7,6 +7,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
 @SpringBootTest
@@ -39,20 +40,21 @@ class UserServiceImplTest {
     }
 
     @Test
-    void deleteByUsername() {
-        service.createUser(user);
-        service.deleteUserByUsername(user.getUsername());
-
-        Assertions.assertFalse(service.findUserById(user.getId()).isPresent());
+    void delete() {
+        Assertions.assertThrows(UsernameNotFoundException.class, () -> {
+            service.createUser(user);
+            service.deleteUserById(user.getId());
+            service.findUserById(user.getId());
+        });
     }
 
     @Test
-    void updateUserProfileByUsername() {
+    void updateUserProfileById() {
         UserProfile profile = service.createUser(user).getProfile();
         profile.setUsername("testUsername");
         profile.setSurname("Ivanov");
 
-        UserProfile newProfile = service.updateUserProfileByUsername(user.getUsername(), profile);
+        UserProfile newProfile = service.updateUserProfileById(user.getId(), profile);
 
         Assertions.assertEquals(profile, newProfile);
     }
@@ -61,7 +63,7 @@ class UserServiceImplTest {
     void updateUserPasswordByUsernameNull() {
         Assertions.assertThrows(ConstraintViolationException.class, () -> {
             service.createUser(user);
-            service.updateUserPasswordByUsername(user.getUsername(), null);
+            service.updateUserPasswordById(user.getId(), null);
         });
     }
 }

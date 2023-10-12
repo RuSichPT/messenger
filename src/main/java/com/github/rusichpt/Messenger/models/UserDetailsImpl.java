@@ -10,6 +10,7 @@ import java.util.List;
 
 @Data
 public class UserDetailsImpl implements UserDetails {
+    private final Long id;
     private final String username;
     private final String password;
 

@@ -12,5 +12,4 @@ public interface UserRepository extends ListCrudRepository<User, Long> {
 
     Optional<User> findByUsername(String username);
 
-    void deleteByUsername(String username);
 }
