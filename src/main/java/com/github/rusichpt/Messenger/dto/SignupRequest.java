@@ -6,21 +6,23 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
+import java.util.UUID;
+
 @Data
 public class SignupRequest {
-    @Email
-    @NotNull
-    private String email;
-    @NotNull
-    @NotBlank
-    private String password;
     @NotNull
     @NotBlank
     private String username;
+    @NotNull
+    @NotBlank
+    private String password;
+    @Email
+    @NotNull
+    private String email;
     private String name;
     private String surname;
 
     public User toUser() {
-        return new User(null, email, password, username, name, surname);
+        return new User(null, email, password, username, name, surname, false, UUID.randomUUID().toString());
     }
 }

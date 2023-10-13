@@ -7,6 +7,8 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import java.util.UUID;
+
 @Configuration
 @Slf4j
 public class WebConfig {
@@ -14,9 +16,9 @@ public class WebConfig {
     public CommandLineRunner dataLoader(UserService userService) {
         return args -> {
             User user1 = new User(null, "user1@mail.ru", "123",
-                    "user1", "Pavel", "Tokarev");
+                    "user1", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
             User user2 = new User(null, "user2@mail.ru", "321",
-                    "user2", "Alex", "Firov");
+                    "user2", "Alex", "Firov", true, UUID.randomUUID().toString());
             userService.createUser(user1);
             userService.createUser(user2);
             log.info("DataLoader loaded data");

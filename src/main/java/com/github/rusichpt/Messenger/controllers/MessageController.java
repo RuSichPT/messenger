@@ -29,14 +29,14 @@ public class MessageController {
     private final MessageService messageService;
     private final UserService userService;
 
-    @Operation(summary = "Send a message to the user", description = "Send a message to the user")
+    @Operation(summary = "Send a message to the user")
     @PostMapping(path = "send")
     public void sendMessage(@AuthenticationPrincipal UserDetailsImpl userFrom, @RequestBody MessageRequest request) {
         User userTo = userService.findUserByUsername(request.getUsernameTo());
         messageService.sendMessage(new Message(userFrom.getId(), userTo.getId(), request.getContent()));
     }
 
-    @Operation(summary = "Get story from the user", description = "Get story from the user")
+    @Operation(summary = "Get story from the user")
     @PostMapping(path = "story")
     public List<StoryResponse> getStory(@AuthenticationPrincipal UserDetailsImpl userTo, @RequestBody StoryRequest request) {
         User userFrom = userService.findUserByUsername(request.getUsernameFrom());

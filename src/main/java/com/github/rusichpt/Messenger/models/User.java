@@ -17,16 +17,18 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(unique = true)
     @NotNull
+    @Column(unique = true)
     private String email;
     @NotNull
     private String password;
-    @Column(unique = true)
     @NotNull
+    @Column(unique = true)
     private String username;
     private String name;
     private String surname;
+    private boolean emailConfirmed;
+    private String confirmationCode;
 
     public void setProfile(UserProfile profile) {
         username = profile.getUsername();

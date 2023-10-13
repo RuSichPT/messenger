@@ -10,6 +10,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @SpringBootTest
 @Transactional
 class UserServiceImplTest {
@@ -17,7 +19,7 @@ class UserServiceImplTest {
     private final UserServiceImpl service;
 
     private final User user = new User(1L, "test@mail.ru", "123",
-            "username", "Pavel", "Tokarev");
+            "username", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
 
     @Autowired
     UserServiceImplTest(UserServiceImpl service) {

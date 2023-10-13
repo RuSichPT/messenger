@@ -4,20 +4,18 @@ import com.github.rusichpt.Messenger.dto.UserProfile;
 import com.github.rusichpt.Messenger.models.User;
 import com.github.rusichpt.Messenger.repositories.UserRepository;
 import com.github.rusichpt.Messenger.services.UserService;
-import jakarta.validation.constraints.NotNull;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.validation.annotation.Validated;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Slf4j
 @RequiredArgsConstructor
-@Validated
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
@@ -34,6 +32,7 @@ public class UserServiceImpl implements UserService {
         }
 
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setConfirmationCode(UUID.randomUUID().toString());
         foundUser = userRepo.save(user);
         log.info("User created: {}", foundUser);
 
@@ -58,6 +57,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(User user) {
+        return userRepo.save(user);
+    }
+
+    @Override
     public UserProfile updateUserProfileById(Long id, UserProfile profile) {
         User user = userRepo.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("User ‘" + profile.getUsername() + "’ not found"));
@@ -68,7 +72,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUserPasswordById(Long id, @NotNull String password) {
+    public void updateUserPasswordById(Long id, String password) {
         User user = userRepo.findById(id).orElseThrow(
                 () -> new UsernameNotFoundException("User not found"));
         user.setPassword(encoder.encode(password));

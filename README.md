@@ -7,4 +7,4 @@ http://localhost:8081/swagger-ui/index.html
 
 ## Временная почта для регистрации
 
-https://temp-mail.org/
+https://temp-mail.org/ru/

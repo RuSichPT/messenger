@@ -23,4 +23,4 @@ jwt:
   secret: secret
 
 host:
-  url: "localhost:${server.port}}"
+  url: "http://localhost:${server.port}"

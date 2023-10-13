@@ -14,9 +14,9 @@ public class UserDetailsImpl implements UserDetails {
     private final String username;
     private final String password;
 
-    private boolean active;
-
-    private String activationCode;
+    private final String email;
+    private final boolean emailConfirmed;
+    private final String confirmationCode;
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
@@ -50,7 +50,7 @@ public class UserDetailsImpl implements UserDetails {
 
     @Override
     public boolean isEnabled() {
-        return active;
+        return true;
     }
 
 }

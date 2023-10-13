@@ -15,6 +15,8 @@ public interface UserService {
 
     List<User> findAllUsers();
 
+    User updateUser(User user);
+
     UserProfile updateUserProfileById(Long id, UserProfile profile);
 
     void updateUserPasswordById(Long id, @NotNull String password);
