@@ -9,6 +9,18 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: ${GMAIL}
+    password: ${GMAIL_APP_PASS}
+    test-connection: true
+    properties.mail.smtp:
+      auth: true
+      starttls.enable: true
 
 jwt:
   secret: secret
+
+host:
+  url: "localhost:${server.port}}"

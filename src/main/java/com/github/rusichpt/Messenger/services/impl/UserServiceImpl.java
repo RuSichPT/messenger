@@ -24,20 +24,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        User user1 = userRepo.findByUsernameOrEmail(user.getUsername(), user.getEmail());
-        if (user1 != null) {
-            log.info("Such user: {} exists", user1);
-            if (user.getUsername().equals(user1.getUsername()))
-                throw new RuntimeException(String.format("User with such username: %s exists", user1.getUsername()));
-            if (user.getEmail().equals(user1.getEmail()))
-                throw new RuntimeException(String.format("User with such email: %s exists", user1.getEmail()));
+        User foundUser = userRepo.findByUsernameOrEmail(user.getUsername(), user.getEmail());
+        if (foundUser != null) {
+            log.info("Such user: {} exists", foundUser);
+            if (user.getUsername().equals(foundUser.getUsername()))
+                throw new RuntimeException(String.format("User with such username: %s exists", foundUser.getUsername()));
+            if (user.getEmail().equals(foundUser.getEmail()))
+                throw new RuntimeException(String.format("User with such email: %s exists", foundUser.getEmail()));
         }
 
         user.setPassword(encoder.encode(user.getPassword()));
-        user1 = userRepo.save(user);
-        log.info("User: {} created", user1);
+        foundUser = userRepo.save(user);
+        log.info("User created: {}", foundUser);
 
-        return user1;
+        return foundUser;
     }
 
     @Override

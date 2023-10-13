@@ -1,6 +1,10 @@
 # Messenger
 Test project for an internship at RELEX
 
-# Описание API предоставляется в формате Swagger (Open API):
+# РћРїРёСЃР°РЅРёРµ API РїСЂРµРґРѕСЃС‚Р°РІР»СЏРµС‚СЃСЏ РІ С„РѕСЂРјР°С‚Рµ Swagger (Open API):
 
 http://localhost:8081/swagger-ui/index.html
+
+## Р’СЂРµРјРµРЅРЅР°СЏ РїРѕС‡С‚Р° РґР»СЏ СЂРµРіРёСЃС‚СЂР°С†РёРё
+
+https://temp-mail.org/
