@@ -5,7 +5,6 @@ import com.github.rusichpt.Messenger.dto.StoryRequest;
 import com.github.rusichpt.Messenger.dto.StoryResponse;
 import com.github.rusichpt.Messenger.models.Message;
 import com.github.rusichpt.Messenger.models.User;
-import com.github.rusichpt.Messenger.models.UserDetailsImpl;
 import com.github.rusichpt.Messenger.services.MessageService;
 import com.github.rusichpt.Messenger.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -31,14 +30,14 @@ public class MessageController {
 
     @Operation(summary = "Send a message to the user")
     @PostMapping(path = "send")
-    public void sendMessage(@AuthenticationPrincipal UserDetailsImpl userFrom, @RequestBody MessageRequest request) {
+    public void sendMessage(@AuthenticationPrincipal User userFrom, @RequestBody MessageRequest request) {
         User userTo = userService.findUserByUsername(request.getUsernameTo());
         messageService.sendMessage(new Message(userFrom.getId(), userTo.getId(), request.getContent()));
     }
 
     @Operation(summary = "Get story from the user")
     @PostMapping(path = "story")
-    public List<StoryResponse> getStory(@AuthenticationPrincipal UserDetailsImpl userTo, @RequestBody StoryRequest request) {
+    public List<StoryResponse> getStory(@AuthenticationPrincipal User userTo, @RequestBody StoryRequest request) {
         User userFrom = userService.findUserByUsername(request.getUsernameFrom());
         List<Message> messages = messageService.getMessages(userFrom.getId(), userTo.getId(), request.getPageNumber(), request.getPageSize());
         return messages.stream()

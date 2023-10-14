@@ -2,11 +2,15 @@ package com.github.rusichpt.Messenger.services;
 
 import com.github.rusichpt.Messenger.dto.UserProfile;
 import com.github.rusichpt.Messenger.models.User;
-import jakarta.validation.constraints.NotNull;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
 import java.util.List;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
+    UserDetails loadUserById(Long id) throws UsernameNotFoundException;
+
     User createUser(User user);
 
     User findUserById(Long id);
@@ -19,7 +23,7 @@ public interface UserService {
 
     UserProfile updateUserProfileById(Long id, UserProfile profile);
 
-    void updateUserPasswordById(Long id, @NotNull String password);
+    void updateUserPasswordById(Long id, String password);
 
 
     void deleteUserById(Long id);

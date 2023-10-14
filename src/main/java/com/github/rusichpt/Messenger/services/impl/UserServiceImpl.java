@@ -6,11 +6,13 @@ import com.github.rusichpt.Messenger.repositories.UserRepository;
 import com.github.rusichpt.Messenger.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -19,6 +21,20 @@ import java.util.UUID;
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepo;
     private final PasswordEncoder encoder;
+
+    @Override
+    public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
+        Optional<User> optUser = userRepo.findById(id);
+        return optUser
+                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        Optional<User> optUser = userRepo.findByUsername(username);
+        return optUser
+                .orElseThrow(() -> new UsernameNotFoundException("User ‘" + username + "’ not found"));
+    }
 
     @Override
     public User createUser(User user) {

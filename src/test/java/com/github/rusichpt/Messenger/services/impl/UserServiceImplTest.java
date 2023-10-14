@@ -2,12 +2,12 @@ package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.dto.UserProfile;
 import com.github.rusichpt.Messenger.models.User;
-import jakarta.validation.ConstraintViolationException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.UUID;
@@ -17,13 +17,14 @@ import java.util.UUID;
 class UserServiceImplTest {
 
     private final UserServiceImpl service;
-
+    private final PasswordEncoder encoder;
     private final User user = new User(1L, "test@mail.ru", "123",
             "username", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
 
     @Autowired
-    UserServiceImplTest(UserServiceImpl service) {
+    public UserServiceImplTest(UserServiceImpl service, PasswordEncoder encoder) {
         this.service = service;
+        this.encoder = encoder;
     }
 
     @Test
@@ -63,9 +64,12 @@ class UserServiceImplTest {
 
     @Test
     void updateUserPasswordByUsernameNull() {
-        Assertions.assertThrows(ConstraintViolationException.class, () -> {
-            service.createUser(user);
-            service.updateUserPasswordById(user.getId(), null);
-        });
+        service.createUser(user);
+        String newPass = "321";
+
+        service.updateUserPasswordById(user.getId(), newPass);
+        User foundUser = service.findUserById(user.getId());
+
+        Assertions.assertTrue(encoder.matches(newPass, foundUser.getPassword()));
     }
 }

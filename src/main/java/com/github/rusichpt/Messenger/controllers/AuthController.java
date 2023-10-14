@@ -6,7 +6,6 @@ import com.github.rusichpt.Messenger.dto.AuthResponse;
 import com.github.rusichpt.Messenger.dto.SignupRequest;
 import com.github.rusichpt.Messenger.dto.SignupResponse;
 import com.github.rusichpt.Messenger.models.User;
-import com.github.rusichpt.Messenger.models.UserDetailsImpl;
 import com.github.rusichpt.Messenger.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
@@ -51,7 +50,7 @@ public class AuthController {
 
     @Operation(summary = "Logout of messenger")
     @PostMapping(path = "/signout")
-    public void logoutUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void logoutUser(@AuthenticationPrincipal User user) {
 
     }
 }

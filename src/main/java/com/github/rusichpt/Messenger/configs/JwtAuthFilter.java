@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.configs;
 
-import com.github.rusichpt.Messenger.services.impl.UserDetailsServiceImpl;
+import com.github.rusichpt.Messenger.services.UserService;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,7 +21,7 @@ import static org.springframework.http.HttpHeaders.AUTHORIZATION;
 @RequiredArgsConstructor
 public class JwtAuthFilter extends OncePerRequestFilter {
     private final JwtUtils jwtUtils;
-    private final UserDetailsServiceImpl userDetailsService;
+    private final UserService userService;
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
@@ -37,7 +37,7 @@ public class JwtAuthFilter extends OncePerRequestFilter {
         String userId = jwtUtils.getUserId(jwtToken);
 
         if (userId != null && SecurityContextHolder.getContext().getAuthentication() == null) {
-            UserDetails userDetails = userDetailsService.loadUserByUserId(userId);
+            UserDetails userDetails = userService.loadUserById(Long.valueOf(userId));
 
             if (userDetails != null && jwtUtils.isTokenValid(jwtToken, userId)) {
                 UsernamePasswordAuthenticationToken authToken = new UsernamePasswordAuthenticationToken(

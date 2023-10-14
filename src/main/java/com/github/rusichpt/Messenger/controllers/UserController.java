@@ -2,7 +2,6 @@ package com.github.rusichpt.Messenger.controllers;
 
 import com.github.rusichpt.Messenger.dto.UserProfile;
 import com.github.rusichpt.Messenger.models.User;
-import com.github.rusichpt.Messenger.models.UserDetailsImpl;
 import com.github.rusichpt.Messenger.services.EmailService;
 import com.github.rusichpt.Messenger.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -37,28 +36,28 @@ public class UserController {
 
     @Operation(summary = "Update user profile")
     @PutMapping(path = "/update/profile")
-    public UserProfile updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @RequestBody UserProfile profile) {
-        return userService.updateUserProfileById(userDetails.getId(), profile);
+    public UserProfile updateUser(@AuthenticationPrincipal User user, @RequestBody UserProfile profile) {
+        return userService.updateUserProfileById(user.getId(), profile);
     }
 
     @Operation(summary = "Update user password")
     @PatchMapping(path = "/update/password")
-    public void updateUser(@AuthenticationPrincipal UserDetailsImpl userDetails, @NotNull @RequestBody String password) {
-        userService.updateUserPasswordById(userDetails.getId(), password);
+    public void updateUser(@AuthenticationPrincipal User user, @NotNull @RequestBody String password) {
+        userService.updateUserPasswordById(user.getId(), password);
     }
 
     @Operation(summary = "Delete user")
     @DeleteMapping(path = "/delete/")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteUser(@AuthenticationPrincipal UserDetailsImpl userDetails) {
-        userService.deleteUserById(userDetails.getId());
+    public void deleteUser(@AuthenticationPrincipal User user) {
+        userService.deleteUserById(user.getId());
     }
 
     @Operation(summary = "Send an email to confirm user email address")
     @GetMapping(path = "/send-email")
-    public void sendEmailForConfirmation(@AuthenticationPrincipal UserDetailsImpl userDetails) {
+    public void sendEmailForConfirmation(@AuthenticationPrincipal User user) {
         String message = String.format("Hello, %s! \n" +
-                "Welcome to Messenger. Please, visit next link:" + host + "/confirm/%s/%s", userDetails.getUsername(), userDetails.getId(), userDetails.getConfirmationCode());
-        emailService.sendSimpleEmail(userDetails.getEmail(), "Confirmation code", message);
+                "Welcome to Messenger. Please, visit next link:" + host + "/confirm/%s/%s", user.getUsername(), user.getId(), user.getConfirmationCode());
+        emailService.sendSimpleEmail(user.getEmail(), "Confirmation code", message);
     }
 }
