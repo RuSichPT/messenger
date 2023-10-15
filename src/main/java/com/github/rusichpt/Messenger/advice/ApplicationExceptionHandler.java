@@ -1,5 +1,6 @@
 package com.github.rusichpt.Messenger.advice;
 
+import com.github.rusichpt.Messenger.advice.exceptions.UserExistsException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
@@ -27,8 +28,8 @@ public class ApplicationExceptionHandler {
     }
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    @ExceptionHandler(UsernameNotFoundException.class)
-    public Map<String, String> handleValidationExceptions(UsernameNotFoundException ex) {
+    @ExceptionHandler({UsernameNotFoundException.class, UserExistsException.class})
+    public Map<String, String> handleExceptions(RuntimeException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", ex.getMessage());
         return errors;

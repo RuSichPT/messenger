@@ -1,9 +1,11 @@
 package com.github.rusichpt.Messenger.services.impl;
 
+import com.github.rusichpt.Messenger.advice.exceptions.UserExistsException;
 import com.github.rusichpt.Messenger.dto.UserProfile;
 import com.github.rusichpt.Messenger.models.User;
 import com.github.rusichpt.Messenger.repositories.UserRepository;
 import com.github.rusichpt.Messenger.services.UserService;
+import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -42,9 +44,9 @@ public class UserServiceImpl implements UserService {
         if (foundUser != null) {
             log.info("Such user: {} exists", foundUser);
             if (user.getUsername().equals(foundUser.getUsername()))
-                throw new RuntimeException(String.format("User with such username: %s exists", foundUser.getUsername()));
+                throw new UserExistsException(String.format("User with such username: %s exists", foundUser.getUsername()));
             if (user.getEmail().equals(foundUser.getEmail()))
-                throw new RuntimeException(String.format("User with such email: %s exists", foundUser.getEmail()));
+                throw new UserExistsException(String.format("User with such email: %s exists", foundUser.getEmail()));
         }
 
         user.setPassword(encoder.encode(user.getPassword()));
@@ -102,5 +104,15 @@ public class UserServiceImpl implements UserService {
         log.info("User with id: {} deleted", id);
     }
 
+    @PostConstruct
+    private void postConstruct() {
+        User user1 = new User(null, "user1@mail.ru", "123",
+                "user1", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
+        User user2 = new User(null, "user2@mail.ru", "321",
+                "user2", "Alex", "Firov", true, UUID.randomUUID().toString());
+
+        createUser(user1);
+        createUser(user2);
+    }
 
 }

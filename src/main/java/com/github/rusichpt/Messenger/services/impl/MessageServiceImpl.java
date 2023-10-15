@@ -1,5 +1,6 @@
 package com.github.rusichpt.Messenger.services.impl;
 
+import com.github.rusichpt.Messenger.models.Chat;
 import com.github.rusichpt.Messenger.models.Message;
 import com.github.rusichpt.Messenger.repositories.MessageRepository;
 import com.github.rusichpt.Messenger.services.MessageService;
@@ -23,9 +24,9 @@ public class MessageServiceImpl implements MessageService {
     }
 
     @Override
-    public List<Message> getMessages(Long fromId, Long toId, int pageNumber, int pageSize) {
-        Pageable pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by("date").descending());
-        Page<Message> page = messageRepo.findAllByFromIdAndToId(fromId, toId, pageRequest);
+    public List<Message> getMessages(Chat chat, int pageNumber, int pageSize) {
+        Pageable pageRequest = PageRequest.of(pageNumber, pageSize, Sort.by("date").ascending());
+        Page<Message> page = messageRepo.findAllByChat(chat, pageRequest);
         return page.getContent();
     }
 }

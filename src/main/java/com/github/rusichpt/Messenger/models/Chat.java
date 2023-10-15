@@ -6,21 +6,23 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
 
-import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Entity
-@Table(name = "messages")
+@Table(name = "chats")
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @RequiredArgsConstructor
-public class Message {
+public class Chat {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @ManyToOne
-    private final User user;
+    private final User user1;
     @ManyToOne
-    private final Chat chat;
-    private final String content;
-    private final LocalDateTime date = LocalDateTime.now();
+    private final User user2;
+
+    @OneToMany(mappedBy = "chat")
+    private List<Message> messages;
 }

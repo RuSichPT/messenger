@@ -2,12 +2,12 @@ package com.github.rusichpt.Messenger.dto;
 
 import lombok.Data;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 public class StoryResponse {
-    private final String usernameFrom;
-    private final String usernameTo;
+    private final String username1;
+    private final String username2;
     private final String content;
-    private final LocalDate date;
+    private final LocalDateTime date;
 }
