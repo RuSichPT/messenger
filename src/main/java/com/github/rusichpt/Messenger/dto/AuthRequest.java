@@ -9,5 +9,6 @@ public class AuthRequest {
     @NotNull
     private final String username;
     @NotBlank
+    @NotNull
     private final String password;
 }

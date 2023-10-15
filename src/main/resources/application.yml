@@ -3,18 +3,17 @@ server:
 
 spring:
   datasource:
-    url: jdbc:h2:mem:mydb
-    username: sa
-    password:
-    driverClassName: org.h2.Driver
+    url: jdbc:postgresql://localhost:5432/messenger_db
+    username: ${POSTGRES_USERNAME}
+    password: ${POSTGRES_PASS}
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    show-sql: true
+    show-sql: false
+    hibernate:
+      ddl-auto: create-drop
     properties:
       hibernate:
-        dialect: org.hibernate.dialect.H2Dialect
-        hbm2ddl:
-          auto: update
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+
   mail:
     host: smtp.gmail.com
     port: 587

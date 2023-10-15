@@ -58,7 +58,7 @@ public class AuthController {
     }
 
     @Operation(summary = "Logout of messenger")
-    @PostMapping(path = "/signout")
+    @GetMapping(path = "/signout")
     @SecurityRequirement(name = "Bearer Authentication")
     public void logoutUser(@Parameter(hidden = true) @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
         jwt = jwt.substring(7);

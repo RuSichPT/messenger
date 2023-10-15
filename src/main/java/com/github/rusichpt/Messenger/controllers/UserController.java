@@ -29,11 +29,6 @@ public class UserController {
     @Value("${host.url}")
     private String host;
 
-    @GetMapping()
-    public List<User> users() {
-        return userService.findAllUsers();
-    }
-
     @Operation(summary = "Update user profile")
     @PutMapping(path = "/update/profile")
     public UserProfile updateUser(@AuthenticationPrincipal User user, @RequestBody UserProfile profile) {
@@ -47,7 +42,7 @@ public class UserController {
     }
 
     @Operation(summary = "Delete user")
-    @DeleteMapping(path = "/delete/")
+    @DeleteMapping(path = "/delete")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteUser(@AuthenticationPrincipal User user) {
         userService.deleteUserById(user.getId());
