@@ -9,6 +9,12 @@ spring:
     driverClassName: org.h2.Driver
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.H2Dialect
+        hbm2ddl:
+          auto: update
   mail:
     host: smtp.gmail.com
     port: 587
@@ -20,8 +26,11 @@ spring:
       starttls.enable: true
 
 jwt:
-  secret: secret
+  secret: 7A24432646294A404E635266556A586E327235753778214125442A472D4B6150
   expirationHours: 24
 
 host:
   url: "http://localhost:${server.port}"
+
+job:
+  checkBlackListTimeMs: 900000

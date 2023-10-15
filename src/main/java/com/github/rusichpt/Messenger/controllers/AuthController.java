@@ -5,18 +5,26 @@ import com.github.rusichpt.Messenger.dto.AuthRequest;
 import com.github.rusichpt.Messenger.dto.AuthResponse;
 import com.github.rusichpt.Messenger.dto.SignupRequest;
 import com.github.rusichpt.Messenger.dto.SignupResponse;
+import com.github.rusichpt.Messenger.models.BLackJwt;
 import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.services.BlackListService;
 import com.github.rusichpt.Messenger.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.Date;
 
 @RestController
 @RequestMapping(path = "/api/v1/auth",
@@ -27,6 +35,7 @@ public class AuthController {
     private final AuthenticationManager authenticationManager;
     private final JwtUtils jwtUtils;
     private final UserService userService;
+    private final BlackListService blackListService;
 
     @Operation(summary = "Register a new user")
     @PostMapping(path = "/signup")
@@ -50,7 +59,12 @@ public class AuthController {
 
     @Operation(summary = "Logout of messenger")
     @PostMapping(path = "/signout")
-    public void logoutUser(@AuthenticationPrincipal User user) {
-
+    @SecurityRequirement(name = "Bearer Authentication")
+    public void logoutUser(@Parameter(hidden = true) @RequestHeader(HttpHeaders.AUTHORIZATION) String jwt) {
+        jwt = jwt.substring(7);
+        Date expiration = jwtUtils.getExpiration(jwt);
+        LocalDateTime expirationDateTime = LocalDateTime.ofInstant(
+                expiration.toInstant(), ZoneId.systemDefault());
+        blackListService.saveJwt(new BLackJwt(jwt, expirationDateTime));
     }
 }

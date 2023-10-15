@@ -2,6 +2,7 @@ package com.github.rusichpt.Messenger.advice;
 
 import com.github.rusichpt.Messenger.advice.exceptions.UserExistsException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
@@ -32,6 +33,14 @@ public class ApplicationExceptionHandler {
     public Map<String, String> handleExceptions(RuntimeException ex) {
         Map<String, String> errors = new HashMap<>();
         errors.put("error", ex.getMessage());
+        return errors;
+    }
+
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    @ExceptionHandler({AuthenticationException.class})
+    public Map<String, String> handleAuthenticationException(Exception ex) {
+        Map<String, String> errors = new HashMap<>();
+        errors.put("error", "Authentication failed");
         return errors;
     }
 }
