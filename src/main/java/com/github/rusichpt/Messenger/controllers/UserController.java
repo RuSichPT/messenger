@@ -15,8 +15,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(path = "/api/v1/users",
         produces = MediaType.APPLICATION_JSON_VALUE)

@@ -18,7 +18,7 @@ class UserServiceImplTest {
 
     private final UserServiceImpl service;
     private final PasswordEncoder encoder;
-    private final User user = new User(1L, "test@mail.ru", "123",
+    private final User user = new User(null, "test@mail.ru", "123",
             "username", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
 
     @Autowired
@@ -30,6 +30,7 @@ class UserServiceImplTest {
     @Test
     void save() {
         User savedUser = service.createUser(user);
+        user.setId(savedUser.getId());
 
         Assertions.assertEquals(user, savedUser);
     }
@@ -45,30 +46,31 @@ class UserServiceImplTest {
     @Test
     void delete() {
         Assertions.assertThrows(UsernameNotFoundException.class, () -> {
-            service.createUser(user);
-            service.deleteUserById(user.getId());
-            service.findUserById(user.getId());
+            User savedUser = service.createUser(user);
+            service.deleteUserById(savedUser.getId());
+            service.findUserById(savedUser.getId());
         });
     }
 
     @Test
     void updateUserProfileById() {
-        UserProfile profile = service.createUser(user).getProfile();
+        User savedUser = service.createUser(user);
+        UserProfile profile = savedUser.getProfile();
         profile.setUsername("testUsername");
         profile.setSurname("Ivanov");
 
-        UserProfile newProfile = service.updateUserProfileById(user.getId(), profile);
+        UserProfile newProfile = service.updateUserProfileById(savedUser.getId(), profile);
 
         Assertions.assertEquals(profile, newProfile);
     }
 
     @Test
     void updateUserPasswordByUsernameNull() {
-        service.createUser(user);
+        User savedUser = service.createUser(user);
         String newPass = "321";
 
-        service.updateUserPasswordById(user.getId(), newPass);
-        User foundUser = service.findUserById(user.getId());
+        service.updateUserPasswordById(savedUser.getId(), newPass);
+        User foundUser = service.findUserById(savedUser.getId());
 
         Assertions.assertTrue(encoder.matches(newPass, foundUser.getPassword()));
     }

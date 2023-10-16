@@ -3,32 +3,34 @@ package com.github.rusichpt.Messenger.services.impl;
 import com.github.rusichpt.Messenger.models.Chat;
 import com.github.rusichpt.Messenger.models.Message;
 import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.services.ChatService;
+import com.github.rusichpt.Messenger.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.UUID;
 
 @SpringBootTest
+@Transactional
 class MessageServiceImplTest {
     private final MessageServiceImpl messageService;
-    private final ChatServiceImpl chatService;
-
-    private final User user1 = new User(1L, "user1@mail.ru", "123",
-            "user1", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
-    private final User user2 = new User(2L, "user2@mail.ru", "321",
-            "user2", "Alex", "Firov", true, UUID.randomUUID().toString());
+    private final ChatService chatService;
+    private final UserService userService;
 
     @Autowired
-    MessageServiceImplTest(MessageServiceImpl messageService, ChatServiceImpl chatService) {
+    MessageServiceImplTest(MessageServiceImpl messageService, ChatServiceImpl chatService, UserService userService) {
         this.messageService = messageService;
         this.chatService = chatService;
+        this.userService = userService;
     }
 
     @Test
     void getMessages() {
+        User user1 = userService.findUserByUsername("user1");
+        User user2 = userService.findUserByUsername("user2");
         Chat chat = chatService.createChat(new Chat(user1, user2));
         messageService.sendMessage(new Message(user1, chat, "Привет"));
         messageService.sendMessage(new Message(user1, chat, "Как дела?"));

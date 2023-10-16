@@ -12,15 +12,15 @@ import java.util.UUID;
 public class SignupRequest {
     @NotNull
     @NotBlank
-    private String username;
+    private final String username;
     @NotNull
     @NotBlank
-    private String password;
+    private final String password;
     @Email
     @NotNull
-    private String email;
-    private String name;
-    private String surname;
+    private final String email;
+    private final String name;
+    private final String surname;
 
     public User toUser() {
         return new User(null, email, password, username, name, surname, false, UUID.randomUUID().toString());
