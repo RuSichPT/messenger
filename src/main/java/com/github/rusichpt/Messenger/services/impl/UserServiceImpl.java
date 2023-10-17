@@ -1,7 +1,6 @@
 package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.advice.exceptions.UserExistsException;
-import com.github.rusichpt.Messenger.dto.UserProfile;
 import com.github.rusichpt.Messenger.models.User;
 import com.github.rusichpt.Messenger.repositories.UserRepository;
 import com.github.rusichpt.Messenger.services.UserService;
@@ -76,32 +75,23 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User updateUser(User user) {
-        return userRepo.save(user);
+        User savedUser = userRepo.save(user);
+        log.info("User updated: {}", savedUser);
+        return savedUser;
     }
 
     @Override
-    public UserProfile updateUserProfileById(Long id, UserProfile profile) {
-        User user = userRepo.findById(id).orElseThrow(
-                () -> new UsernameNotFoundException("User ‘" + profile.getUsername() + "’ not found"));
-        user.setProfile(profile);
-        UserProfile newProfile = userRepo.save(user).getProfile();
-        log.info("User with id: {} updated profile: {}", id, newProfile);
-        return newProfile;
-    }
-
-    @Override
-    public void updateUserPasswordById(Long id, String password) {
-        User user = userRepo.findById(id).orElseThrow(
-                () -> new UsernameNotFoundException("User not found"));
+    public User updateUserPass(User user, String password) {
         user.setPassword(encoder.encode(password));
-        userRepo.save(user);
-        log.info("User with id: {} updated password", id);
+        User updatedUser = userRepo.save(user);
+        log.info("User updated password: {}", user);
+        return updatedUser;
     }
 
     @Override
-    public void deleteUserById(Long id) {
-        userRepo.deleteById(id);
-        log.info("User with id: {} deleted", id);
+    public void deleteUser(User user) {
+        userRepo.deleteById(user.getId());
+        log.info("User deleted: {}", user);
     }
 
     @PostConstruct

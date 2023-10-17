@@ -16,7 +16,6 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -41,17 +40,12 @@ public class AuthController {
 
     private final EmailService emailService;
 
-    @Value("${host.url}")
-    private String host;
-
     @Operation(summary = "Register a new user")
     @PostMapping(path = "/signup")
     @ResponseStatus(HttpStatus.CREATED)
     public SignupResponse registerUser(@Valid @RequestBody SignupRequest request) {
         User user = userService.createUser(request.toUser());
-        String message = String.format("Hello, %s! \n" +
-                "Welcome to Messenger. Please, visit next link:" + host + "/confirm/%s/%s", user.getUsername(), user.getId(), user.getConfirmationCode());
-        emailService.sendSimpleEmail(user.getEmail(), "Confirmation code", message);
+        emailService.sendConfirmationCode(user);
         return new SignupResponse("User created");
     }
 

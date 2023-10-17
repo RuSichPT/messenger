@@ -1,6 +1,5 @@
 package com.github.rusichpt.Messenger.services;
 
-import com.github.rusichpt.Messenger.dto.UserProfile;
 import com.github.rusichpt.Messenger.models.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -21,10 +20,7 @@ public interface UserService extends UserDetailsService {
 
     User updateUser(User user);
 
-    UserProfile updateUserProfileById(Long id, UserProfile profile);
+    User updateUserPass(User user, String password);
 
-    void updateUserPasswordById(Long id, String password);
-
-
-    void deleteUserById(Long id);
+    void deleteUser(User User);
 }

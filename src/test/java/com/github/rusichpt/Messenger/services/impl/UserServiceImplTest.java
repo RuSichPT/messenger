@@ -47,29 +47,30 @@ class UserServiceImplTest {
     void delete() {
         Assertions.assertThrows(UsernameNotFoundException.class, () -> {
             User savedUser = service.createUser(user);
-            service.deleteUserById(savedUser.getId());
+            service.deleteUser(savedUser);
             service.findUserById(savedUser.getId());
         });
     }
 
     @Test
-    void updateUserProfileById() {
-        User savedUser = service.createUser(user);
-        UserProfile profile = savedUser.getProfile();
+    void updateUser() {
+        User createdUser = service.createUser(user);
+        UserProfile profile = createdUser.getProfile();
         profile.setUsername("testUsername");
         profile.setSurname("Ivanov");
+        createdUser.setProfile(profile);
 
-        UserProfile newProfile = service.updateUserProfileById(savedUser.getId(), profile);
+        User savedUser = service.updateUser(createdUser);
 
-        Assertions.assertEquals(profile, newProfile);
+        Assertions.assertEquals(profile, savedUser.getProfile());
     }
 
     @Test
-    void updateUserPasswordByUsernameNull() {
+    void updateUserPassword() {
         User savedUser = service.createUser(user);
         String newPass = "321";
 
-        service.updateUserPasswordById(savedUser.getId(), newPass);
+        service.updateUserPass(savedUser, newPass);
         User foundUser = service.findUserById(savedUser.getId());
 
         Assertions.assertTrue(encoder.matches(newPass, foundUser.getPassword()));
