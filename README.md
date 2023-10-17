@@ -92,7 +92,9 @@ http://localhost:8081/swagger-ui/index.html
     -H 'accept: */*' \
     -H 'Authorization: Bearer eyJhbGciOiJIUzM4NCJ9.eyJzdWIiOiIxIiwiaWF0IjoxNjk3Mzg5NTA1LCJleHAiOjE2OTc0NzU5MDV9.N8QwANaGFP-aEu1vmAPDBE4ahn_H3sYP3t-T3jpZi4LDOd82bqNMlJTcnhGWYKFU' \
     -H 'Content-Type: application/json' \
-    -d '"4444"'
+    -d '{
+    "password": "4444"
+    }'
 
 ##### Удаление пользователя:
 
