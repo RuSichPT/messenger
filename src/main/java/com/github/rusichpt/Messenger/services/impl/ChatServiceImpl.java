@@ -28,4 +28,9 @@ public class ChatServiceImpl implements ChatService {
     public Optional<Chat> findSelfChat(User user) {
         return chatRepo.findSelfChat(user);
     }
+
+    @Override
+    public void deleteChatsByUser(User user) {
+        chatRepo.deleteByUser1OrUser2(user, user);
+    }
 }

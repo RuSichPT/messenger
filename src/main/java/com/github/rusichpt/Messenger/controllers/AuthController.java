@@ -51,7 +51,7 @@ public class AuthController {
 
     @PostMapping(path = "/signin")
     @Operation(summary = "Login to messenger")
-    public AuthResponse authUser(@RequestBody AuthRequest request) {
+    public AuthResponse authUser(@Valid @RequestBody AuthRequest request) {
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getUsername(),

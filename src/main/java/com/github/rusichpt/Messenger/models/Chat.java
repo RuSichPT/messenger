@@ -23,6 +23,6 @@ public class Chat {
     @ManyToOne
     private final User user2;
 
-    @OneToMany(mappedBy = "chat")
+    @OneToMany(mappedBy = "chat", cascade = CascadeType.ALL)
     private List<Message> messages;
 }

@@ -11,4 +11,6 @@ public interface ChatService {
     Optional<Chat> findChatByUsers(User user1, User user2);
 
     Optional<Chat> findSelfChat(User user);
+
+    void deleteChatsByUser(User user);
 }

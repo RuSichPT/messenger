@@ -12,6 +12,7 @@ import com.github.rusichpt.Messenger.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -35,7 +36,7 @@ public class MessageController {
 
     @Operation(summary = "Send a message to the user")
     @PostMapping(path = "send")
-    public void sendMessage(@AuthenticationPrincipal User userFrom, @RequestBody MessageRequest request) {
+    public void sendMessage(@AuthenticationPrincipal User userFrom, @Valid @RequestBody MessageRequest request) {
         User userTo = userService.findUserByUsername(request.getUsernameTo());
         Optional<Chat> optChat;
         if (userFrom.getUsername().equals(userTo.getUsername())) {
@@ -54,7 +55,7 @@ public class MessageController {
 
     @Operation(summary = "Get story from the user")
     @PostMapping(path = "story")
-    public List<StoryResponse> getStory(@AuthenticationPrincipal User userTo, @RequestBody StoryRequest request) {
+    public List<StoryResponse> getStory(@AuthenticationPrincipal User userTo, @Valid  @RequestBody StoryRequest request) {
         User userFrom = userService.findUserByUsername(request.getUsernameFrom());
         Optional<Chat> optChat = chatService.findChatByUsers(userFrom, userTo);
         if (optChat.isPresent()) {

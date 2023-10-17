@@ -17,4 +17,6 @@ public interface ChatRepository extends ListCrudRepository<Chat, Long> {
     @Query("SELECT c FROM Chat c WHERE" +
             " (c.user1 = ?1 and c.user2 = ?1) ")
     Optional<Chat> findSelfChat(User user);
+
+    void deleteByUser1OrUser2(User user1, User user2);
 }
