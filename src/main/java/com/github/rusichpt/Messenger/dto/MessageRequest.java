@@ -2,13 +2,17 @@ package com.github.rusichpt.Messenger.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageRequest {
     @NotNull
     @NotBlank
-    private final String usernameTo;
+    private String usernameTo;
     @NotBlank
-    private final String content;
+    private String content;
 }

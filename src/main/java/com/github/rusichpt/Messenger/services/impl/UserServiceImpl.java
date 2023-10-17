@@ -5,7 +5,6 @@ import com.github.rusichpt.Messenger.models.User;
 import com.github.rusichpt.Messenger.repositories.UserRepository;
 import com.github.rusichpt.Messenger.services.ChatService;
 import com.github.rusichpt.Messenger.services.UserService;
-import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.userdetails.UserDetails;

@@ -2,13 +2,17 @@ package com.github.rusichpt.Messenger.dto;
 
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthRequest {
     @NotNull
-    private final String username;
+    private String username;
     @NotBlank
     @NotNull
-    private final String password;
+    private String password;
 }

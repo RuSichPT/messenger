@@ -1,12 +1,12 @@
 package com.github.rusichpt.Messenger.dto;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.RequiredArgsConstructor;
 
 @Data
-@NoArgsConstructor(force = true)
-@RequiredArgsConstructor
+@NoArgsConstructor
+@AllArgsConstructor
 public class AuthResponse {
-    private final String token;
+    private String token;
 }

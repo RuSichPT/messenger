@@ -4,23 +4,27 @@ import com.github.rusichpt.Messenger.models.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.UUID;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class SignupRequest {
     @NotNull
     @NotBlank
-    private final String username;
+    private String username;
     @NotNull
     @NotBlank
-    private final String password;
+    private String password;
     @NotNull
     @Email
-    private final String email;
-    private final String name;
-    private final String surname;
+    private String email;
+    private String name;
+    private String surname;
 
     public User toUser() {
         return new User(null, email, password, username, name, surname, false, UUID.randomUUID().toString());
