@@ -5,10 +5,8 @@ import jakarta.validation.constraints.NotNull;
 import lombok.Data;
 
 @Data
-public class MessageRequest {
+public class PassRequest {
     @NotNull
     @NotBlank
-    private final String usernameTo;
-    @NotBlank
-    private final String content;
+    private final String password;
 }

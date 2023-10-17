@@ -2,6 +2,7 @@ package com.github.rusichpt.Messenger.models;
 
 import com.github.rusichpt.Messenger.dto.UserProfile;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -27,6 +28,7 @@ public class User implements UserDetails {
     @Column(unique = true)
     private String email;
     @NotNull
+    @NotBlank
     private String password;
     @NotNull
     @Column(unique = true)

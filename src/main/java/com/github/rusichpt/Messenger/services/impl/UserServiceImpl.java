@@ -39,21 +39,14 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        User foundUser = userRepo.findByUsernameOrEmail(user.getUsername(), user.getEmail());
-        if (foundUser != null) {
-            log.info("Such user: {} exists", foundUser);
-            if (user.getUsername().equals(foundUser.getUsername()))
-                throw new UserExistsException(String.format("User with such username: %s exists", foundUser.getUsername()));
-            if (user.getEmail().equals(foundUser.getEmail()))
-                throw new UserExistsException(String.format("User with such email: %s exists", foundUser.getEmail()));
-        }
+        checkUniqueEmailAndUsername(user.getUsername(), user.getEmail());
 
         user.setPassword(encoder.encode(user.getPassword()));
         user.setConfirmationCode(UUID.randomUUID().toString());
-        foundUser = userRepo.save(user);
-        log.info("User created: {}", foundUser);
+        User createdUser = userRepo.save(user);
+        log.info("User created: {}", createdUser);
 
-        return foundUser;
+        return createdUser;
     }
 
     @Override
@@ -92,6 +85,18 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(User user) {
         userRepo.deleteById(user.getId());
         log.info("User deleted: {}", user);
+    }
+
+    @Override
+    public void checkUniqueEmailAndUsername(String username, String email) {
+        User foundUser = userRepo.findByUsernameOrEmail(username, email);
+        if (foundUser != null) {
+            log.info("Such user: {} exists", foundUser);
+            if (username.equals(foundUser.getUsername()))
+                throw new UserExistsException(String.format("User with such username: %s exists", foundUser.getUsername()));
+            if (email.equals(foundUser.getEmail()))
+                throw new UserExistsException(String.format("User with such email: %s exists", foundUser.getEmail()));
+        }
     }
 
     @PostConstruct

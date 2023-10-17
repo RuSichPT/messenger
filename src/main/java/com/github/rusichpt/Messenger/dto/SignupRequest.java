@@ -16,8 +16,8 @@ public class SignupRequest {
     @NotNull
     @NotBlank
     private final String password;
-    @Email
     @NotNull
+    @Email
     private final String email;
     private final String name;
     private final String surname;

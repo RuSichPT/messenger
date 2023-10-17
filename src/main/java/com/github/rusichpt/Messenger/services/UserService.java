@@ -23,4 +23,6 @@ public interface UserService extends UserDetailsService {
     User updateUserPass(User user, String password);
 
     void deleteUser(User User);
+
+    void checkUniqueEmailAndUsername(String username, String email);
 }
