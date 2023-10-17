@@ -19,7 +19,7 @@ spring:
     port: 587
     username: ${GMAIL}
     password: ${GMAIL_APP_PASS}
-    test-connection: true
+    test-connection: false
     properties.mail.smtp:
       auth: true
       starttls.enable: true
