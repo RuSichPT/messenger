@@ -8,6 +8,7 @@ import java.util.Optional;
 
 public interface BlackListService {
     BLackJwt saveJwt(BLackJwt jwt);
+
     void deleteAllJwtByExpirationBefore(LocalDateTime dateTime);
 
     Optional<BLackJwt> findJwt(String jwt);

@@ -100,20 +100,4 @@ public class UserServiceImpl implements UserService {
                 throw new UserExistsException(String.format("User with such email: %s exists", foundUser.getEmail()));
         }
     }
-
-    @PostConstruct
-    private void postConstruct() {
-        try {
-            User user1 = new User(null, "user1@mail.ru", "123",
-                    "user1", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
-            User user2 = new User(null, "user2@mail.ru", "321",
-                    "user2", "Alex", "Firov", true, UUID.randomUUID().toString());
-
-            createUser(user1);
-            createUser(user2);
-        } catch (UserExistsException e) {
-            log.info(e.getMessage());
-        }
-    }
-
 }

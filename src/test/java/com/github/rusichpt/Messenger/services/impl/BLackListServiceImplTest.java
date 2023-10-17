@@ -35,7 +35,7 @@ class BLackListServiceImplTest {
         blackListService.deleteAllJwtByExpirationBefore(LocalDateTime.now());
 
         List<BLackJwt> allJwt = blackListService.findAllJwt();
-        Assertions.assertEquals(allJwt.size(),0);
+        Assertions.assertEquals(allJwt.size(), 0);
     }
 
 }

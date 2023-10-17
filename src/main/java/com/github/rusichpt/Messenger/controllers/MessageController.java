@@ -55,7 +55,7 @@ public class MessageController {
 
     @Operation(summary = "Get story from the user")
     @PostMapping(path = "story")
-    public List<StoryResponse> getStory(@AuthenticationPrincipal User userTo, @Valid  @RequestBody StoryRequest request) {
+    public List<StoryResponse> getStory(@AuthenticationPrincipal User userTo, @Valid @RequestBody StoryRequest request) {
         User userFrom = userService.findUserByUsername(request.getUsernameFrom());
         Optional<Chat> optChat = chatService.findChatByUsers(userFrom, userTo);
         if (optChat.isPresent()) {
