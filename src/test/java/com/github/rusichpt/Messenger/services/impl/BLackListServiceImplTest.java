@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.configs.JwtUtils;
-import com.github.rusichpt.Messenger.models.BLackJwt;
+import com.github.rusichpt.Messenger.entities.BLackJwt;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

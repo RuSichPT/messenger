@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.services;
 
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;

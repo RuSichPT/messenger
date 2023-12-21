@@ -2,7 +2,7 @@ package com.github.rusichpt.Messenger.controllers;
 
 import com.github.rusichpt.Messenger.dto.PassRequest;
 import com.github.rusichpt.Messenger.dto.UserProfile;
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.ChatService;
 import com.github.rusichpt.Messenger.services.EmailService;
 import com.github.rusichpt.Messenger.services.UserService;

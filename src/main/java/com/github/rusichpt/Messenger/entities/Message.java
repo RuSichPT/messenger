@@ -1,4 +1,4 @@
-package com.github.rusichpt.Messenger.models;
+package com.github.rusichpt.Messenger.entities;
 
 import jakarta.persistence.*;
 import lombok.AccessLevel;
@@ -10,14 +10,17 @@ import java.time.LocalDateTime;
 
 @Data
 @Entity
-@Table(name = "black_list")
+@Table(name = "messages")
 @NoArgsConstructor(access = AccessLevel.PROTECTED, force = true)
 @RequiredArgsConstructor
-public class BLackJwt {
+public class Message {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
-    private final String token;
-    private final LocalDateTime expiration;
+    @ManyToOne
+    private final User user;
+    @ManyToOne
+    private final Chat chat;
+    private final String content;
+    private final LocalDateTime date = LocalDateTime.now();
 }

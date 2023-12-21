@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.services.impl;
 
-import com.github.rusichpt.Messenger.models.BLackJwt;
+import com.github.rusichpt.Messenger.entities.BLackJwt;
 import com.github.rusichpt.Messenger.repositories.BlackListRepository;
 import com.github.rusichpt.Messenger.services.BlackListService;
 import lombok.RequiredArgsConstructor;

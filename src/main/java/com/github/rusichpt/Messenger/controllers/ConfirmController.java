@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.controllers;
 
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;

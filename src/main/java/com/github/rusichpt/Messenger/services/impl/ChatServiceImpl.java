@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.services.impl;
 
-import com.github.rusichpt.Messenger.models.Chat;
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.Chat;
+import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.repositories.ChatRepository;
 import com.github.rusichpt.Messenger.services.ChatService;
 import lombok.RequiredArgsConstructor;

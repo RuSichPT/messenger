@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.repositories;
 
-import com.github.rusichpt.Messenger.models.BLackJwt;
+import com.github.rusichpt.Messenger.entities.BLackJwt;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 

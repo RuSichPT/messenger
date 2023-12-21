@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.repositories;
 
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;
 

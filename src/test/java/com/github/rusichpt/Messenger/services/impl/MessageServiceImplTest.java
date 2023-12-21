@@ -1,8 +1,8 @@
 package com.github.rusichpt.Messenger.services.impl;
 
-import com.github.rusichpt.Messenger.models.Chat;
-import com.github.rusichpt.Messenger.models.Message;
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.Chat;
+import com.github.rusichpt.Messenger.entities.Message;
+import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.ChatService;
 import com.github.rusichpt.Messenger.services.UserService;
 import org.junit.jupiter.api.Assertions;

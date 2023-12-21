@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.services;
 
-import com.github.rusichpt.Messenger.models.BLackJwt;
+import com.github.rusichpt.Messenger.entities.BLackJwt;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.dto;
 
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

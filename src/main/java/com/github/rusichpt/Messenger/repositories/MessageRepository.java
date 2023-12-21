@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.repositories;
 
-import com.github.rusichpt.Messenger.models.Chat;
-import com.github.rusichpt.Messenger.models.Message;
+import com.github.rusichpt.Messenger.entities.Chat;
+import com.github.rusichpt.Messenger.entities.Message;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

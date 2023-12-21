@@ -1,4 +1,4 @@
-package com.github.rusichpt.Messenger.models;
+package com.github.rusichpt.Messenger.entities;
 
 import com.github.rusichpt.Messenger.dto.UserProfile;
 import jakarta.persistence.*;

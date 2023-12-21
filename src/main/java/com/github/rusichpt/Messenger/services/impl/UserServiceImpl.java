@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.advice.exceptions.UserExistsException;
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.repositories.UserRepository;
 import com.github.rusichpt.Messenger.services.ChatService;
 import com.github.rusichpt.Messenger.services.UserService;

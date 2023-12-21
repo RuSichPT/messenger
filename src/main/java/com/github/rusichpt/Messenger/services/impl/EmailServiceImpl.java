@@ -1,6 +1,6 @@
 package com.github.rusichpt.Messenger.services.impl;
 
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.EmailService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;

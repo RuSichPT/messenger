@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.repositories;
 
-import com.github.rusichpt.Messenger.models.Chat;
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.Chat;
+import com.github.rusichpt.Messenger.entities.User;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.ListCrudRepository;
 import org.springframework.stereotype.Repository;

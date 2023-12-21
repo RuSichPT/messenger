@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.dto.UserProfile;
-import com.github.rusichpt.Messenger.models.User;
+import com.github.rusichpt.Messenger.entities.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

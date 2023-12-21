@@ -1,7 +1,7 @@
 package com.github.rusichpt.Messenger.services;
 
-import com.github.rusichpt.Messenger.models.Chat;
-import com.github.rusichpt.Messenger.models.Message;
+import com.github.rusichpt.Messenger.entities.Chat;
+import com.github.rusichpt.Messenger.entities.Message;
 
 import java.util.List;
 
