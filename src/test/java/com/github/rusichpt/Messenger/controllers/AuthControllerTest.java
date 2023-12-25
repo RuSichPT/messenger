@@ -3,7 +3,7 @@ package com.github.rusichpt.Messenger.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.rusichpt.Messenger.dto.AuthRequest;
 import com.github.rusichpt.Messenger.dto.AuthResponse;
-import com.github.rusichpt.Messenger.dto.SignupRequest;
+import com.github.rusichpt.Messenger.dto.UserCreateDTO;
 import com.github.rusichpt.Messenger.services.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,10 +40,10 @@ class AuthControllerTest {
 
     @Test
     void registerUser() throws Exception {
-        SignupRequest request = new SignupRequest("user3", "123",
+        UserCreateDTO request = new UserCreateDTO("user3", "123",
                 "user3@mail.ru", "Name", "Surname");
 
-        mockMvc.perform(post("/api/v1/auth/signup")
+        mockMvc.perform(post("/api/v1/users/registration")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
@@ -51,10 +51,10 @@ class AuthControllerTest {
 
     @Test
     void registerExistedUser() throws Exception {
-        SignupRequest request = new SignupRequest("user1", "123",
+        UserCreateDTO request = new UserCreateDTO("user1", "123",
                 "user1@mail.ru", "Name", "Surname");
 
-        mockMvc.perform(post("/api/v1/auth/signup")
+        mockMvc.perform(post("/api/v1/users/registration")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isBadRequest());

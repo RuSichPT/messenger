@@ -1,7 +1,9 @@
 package com.github.rusichpt.Messenger.controllers;
 
-import com.github.rusichpt.Messenger.dto.PassRequest;
-import com.github.rusichpt.Messenger.dto.UserProfile;
+import com.github.rusichpt.Messenger.dto.UserCreateDTO;
+import com.github.rusichpt.Messenger.dto.UserDTO;
+import com.github.rusichpt.Messenger.dto.UserUpdateDTO;
+import com.github.rusichpt.Messenger.dto.UserUpdatePassDTO;
 import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.ChatService;
 import com.github.rusichpt.Messenger.services.EmailService;
@@ -11,13 +13,12 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
-
-import java.util.UUID;
 
 @RestController
 @RequestMapping(path = "/api/v1/users",
@@ -29,31 +30,34 @@ public class UserController {
     private final UserService userService;
     private final ChatService chatService;
     private final EmailService emailService;
+    private final ModelMapper modelMapper;
+
+    @PostMapping(path = "/registration")
+    @ResponseStatus(HttpStatus.CREATED)
+    @Operation(summary = "Register a new user")
+    public UserDTO registerUser(@Valid @RequestBody UserCreateDTO userCreateDTO) {
+        User user = userService.createUser(modelMapper.map(userCreateDTO, User.class));
+        return modelMapper.map(user, UserDTO.class);
+    }
 
     @Operation(summary = "Get user profile")
     @GetMapping(path = "/profile")
-    public UserProfile getProfile(@AuthenticationPrincipal User user) {
-        return userService.findUserById(user.getId()).getProfile();
+    public UserDTO getUserProfile(@AuthenticationPrincipal User user) {
+        return modelMapper.map(user, UserDTO.class);
     }
 
     @Operation(summary = "Update user profile")
-    @PutMapping(path = "/update/profile")
-    public UserProfile updateUserProfile(@AuthenticationPrincipal User user, @Valid @RequestBody UserProfile profile) {
-        userService.checkUniqueEmailAndUsername(profile.getUsername(), profile.getEmail());
-        String oldEmail = user.getEmail();
-        user.setProfile(profile);
-        if (!oldEmail.equals(profile.getEmail())) {
-            user.setEmailConfirmed(false);
-            user.setConfirmationCode(UUID.randomUUID().toString());
-            emailService.sendConfirmationCode(user);
-        }
-        return userService.updateUser(user).getProfile();
+    @PutMapping(path = "/profile")
+    public UserDTO updateUserProfile(@AuthenticationPrincipal User user,
+                                     @Valid @RequestBody UserUpdateDTO userUpdateDTO) {
+        User updatedUser = userService.updateUser(user, userUpdateDTO);
+        return modelMapper.map(updatedUser, UserDTO.class);
     }
 
     @Operation(summary = "Update user password")
-    @PatchMapping(path = "/update/password")
-    public void updateUserPass(@AuthenticationPrincipal User user, @Valid @RequestBody PassRequest request) {
-        userService.updateUserPass(user, request.getPassword());
+    @PatchMapping(path = "/password")
+    public void updateUserPass(@AuthenticationPrincipal User user, @Valid @RequestBody UserUpdatePassDTO passUpdateDTO) {
+        userService.updateUserPass(user, passUpdateDTO.getPassword());
     }
 
     @Operation(summary = "Delete user")

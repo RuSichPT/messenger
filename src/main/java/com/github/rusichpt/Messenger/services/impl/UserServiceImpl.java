@@ -1,9 +1,11 @@
 package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.advice.exceptions.UserExistsException;
+import com.github.rusichpt.Messenger.dto.UserUpdateDTO;
 import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.repositories.UserRepository;
-import com.github.rusichpt.Messenger.services.ChatService;
+import com.github.rusichpt.Messenger.services.CustomValidator;
+import com.github.rusichpt.Messenger.services.EmailService;
 import com.github.rusichpt.Messenger.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -20,9 +22,11 @@ import java.util.UUID;
 @Slf4j
 @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
+
     private final UserRepository userRepo;
-    private final ChatService chatService;
     private final PasswordEncoder encoder;
+    private final EmailService emailService;
+    private final CustomValidator validator;
 
     @Override
     public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
@@ -40,11 +44,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User createUser(User user) {
-        checkUniqueEmailAndUsername(user.getUsername(), user.getEmail());
+        checkUniqueEmailAndUsername(user.getEmail(), user.getUsername());
 
         user.setPassword(encoder.encode(user.getPassword()));
         user.setConfirmationCode(UUID.randomUUID().toString());
         User createdUser = userRepo.save(user);
+
+        emailService.sendConfirmationCode(createdUser);
         log.info("User created: {}", createdUser);
 
         return createdUser;
@@ -68,6 +74,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public User updateUser(User user, UserUpdateDTO userUpdateDTO) {
+        checkUniqueEmailAndUsername(userUpdateDTO.getEmail(), userUpdateDTO.getUsername());
+        String oldEmail = user.getEmail();
+
+        user.setEmail(userUpdateDTO.getEmail());
+        user.setUsername(userUpdateDTO.getUsername());
+        user.setName(userUpdateDTO.getName());
+        user.setSurname(userUpdateDTO.getSurname());
+
+        if (!oldEmail.equals(userUpdateDTO.getEmail())) {
+            user.setEmailConfirmed(false);
+            user.setConfirmationCode(UUID.randomUUID().toString());
+            emailService.sendConfirmationCode(user);
+        }
+
+        User savedUser = userRepo.save(user);
+        log.info("User updated: {}", savedUser);
+
+        return savedUser;
+    }
+
+    @Override
     public User updateUser(User user) {
         User savedUser = userRepo.save(user);
         log.info("User updated: {}", savedUser);
@@ -88,15 +116,11 @@ public class UserServiceImpl implements UserService {
         log.info("User deleted: {}", user);
     }
 
-    @Override
-    public void checkUniqueEmailAndUsername(String username, String email) {
-        User foundUser = userRepo.findByUsernameOrEmail(username, email);
-        if (foundUser != null) {
-            log.info("Such user: {} exists", foundUser);
-            if (username.equals(foundUser.getUsername()))
-                throw new UserExistsException(String.format("User with such username: %s exists", foundUser.getUsername()));
-            if (email.equals(foundUser.getEmail()))
-                throw new UserExistsException(String.format("User with such email: %s exists", foundUser.getEmail()));
-        }
+    private void checkUniqueEmailAndUsername(String email, String username) {
+        if (!validator.isUniqueEmail(email))
+            throw new UserExistsException(String.format("User with such email: %s exists", email));
+        if (!validator.isUniqueUsername(username))
+            throw new UserExistsException(String.format("User with such username: %s exists", username));
     }
+
 }

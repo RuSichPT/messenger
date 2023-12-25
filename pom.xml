@@ -17,6 +17,7 @@
 		<java.version>17</java.version>
 		<swagger.verion>2.2.0</swagger.verion>
 		<jjwt.version>0.11.5</jjwt.version>
+		<mm.version>3.2.0</mm.version>
 	</properties>
 	<dependencies>
 		<dependency>
@@ -83,6 +84,12 @@
 			<groupId>org.projectlombok</groupId>
 			<artifactId>lombok</artifactId>
 			<optional>true</optional>
+		</dependency>
+
+		<dependency>
+			<groupId>org.modelmapper</groupId>
+			<artifactId>modelmapper</artifactId>
+			<version>${mm.version}</version>
 		</dependency>
 
 		<dependency>

@@ -4,11 +4,13 @@ import com.github.rusichpt.Messenger.entities.Chat;
 import com.github.rusichpt.Messenger.entities.Message;
 import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.ChatService;
+import com.github.rusichpt.Messenger.services.EmailService;
 import com.github.rusichpt.Messenger.services.UserService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
@@ -18,12 +20,16 @@ import java.util.List;
 class MessageServiceImplTest {
     private final MessageServiceImpl messageService;
     private final ChatService chatService;
+
+    @MockBean // заменяем реальный сервис, чтобы не спамить почту на несуществующий адрес.
+    private final EmailService emailService;
     private final UserService userService;
 
     @Autowired
-    MessageServiceImplTest(MessageServiceImpl messageService, ChatServiceImpl chatService, UserService userService) {
+    MessageServiceImplTest(MessageServiceImpl messageService, ChatServiceImpl chatService, EmailService emailService, UserService userService) {
         this.messageService = messageService;
         this.chatService = chatService;
+        this.emailService = emailService;
         this.userService = userService;
     }
 

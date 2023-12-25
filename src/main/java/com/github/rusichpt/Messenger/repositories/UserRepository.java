@@ -8,8 +8,9 @@ import java.util.Optional;
 
 @Repository
 public interface UserRepository extends ListCrudRepository<User, Long> {
-    User findByUsernameOrEmail(String username, String email);
 
     Optional<User> findByUsername(String username);
+
+    Optional<User> findByEmail(String email);
 
 }

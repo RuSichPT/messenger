@@ -13,7 +13,7 @@ import java.util.UUID;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class SignupRequest {
+public class UserCreateDTO {
     @NotNull
     @NotBlank
     private String username;

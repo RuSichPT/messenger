@@ -5,10 +5,12 @@ import com.github.rusichpt.Messenger.dto.AuthRequest;
 import com.github.rusichpt.Messenger.dto.AuthResponse;
 import com.github.rusichpt.Messenger.dto.MessageRequest;
 import com.github.rusichpt.Messenger.dto.StoryRequest;
+import com.github.rusichpt.Messenger.services.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
@@ -28,11 +30,14 @@ class MessageControllerTest {
 
     private final ObjectMapper objectMapper;
 
+    @MockBean // заменяем реальный сервис, чтобы не спамить почту на несуществующий адрес.
+    private final EmailService emailService;
     private final MockMvc mockMvc;
 
     @Autowired
-    public MessageControllerTest(ObjectMapper objectMapper, MockMvc mockMvc) {
+    public MessageControllerTest(ObjectMapper objectMapper, EmailService emailService, MockMvc mockMvc) {
         this.objectMapper = objectMapper;
+        this.emailService = emailService;
         this.mockMvc = mockMvc;
     }
 

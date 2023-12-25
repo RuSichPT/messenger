@@ -2,10 +2,12 @@ package com.github.rusichpt.Messenger.services.impl;
 
 import com.github.rusichpt.Messenger.configs.JwtUtils;
 import com.github.rusichpt.Messenger.entities.BLackJwt;
+import com.github.rusichpt.Messenger.services.EmailService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
@@ -17,10 +19,14 @@ class BLackListServiceImplTest {
     private final BLackListServiceImpl blackListService;
     private final JwtUtils jwtUtils;
 
+    @MockBean // заменяем реальный сервис, чтобы не спамить почту на несуществующий адрес.
+    private final EmailService emailService;
+
     @Autowired
-    public BLackListServiceImplTest(BLackListServiceImpl blackListService, JwtUtils jwtUtils) {
+    public BLackListServiceImplTest(BLackListServiceImpl blackListService, JwtUtils jwtUtils, EmailService emailService) {
         this.blackListService = blackListService;
         this.jwtUtils = jwtUtils;
+        this.emailService = emailService;
     }
 
     @Test

@@ -3,8 +3,8 @@ package com.github.rusichpt.Messenger.controllers;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.rusichpt.Messenger.dto.AuthRequest;
 import com.github.rusichpt.Messenger.dto.AuthResponse;
-import com.github.rusichpt.Messenger.dto.PassRequest;
-import com.github.rusichpt.Messenger.dto.UserProfile;
+import com.github.rusichpt.Messenger.dto.UserUpdateDTO;
+import com.github.rusichpt.Messenger.dto.UserUpdatePassDTO;
 import com.github.rusichpt.Messenger.services.EmailService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,8 +64,8 @@ class UserControllerTest {
 
     @Test
     void updateUserProfile() throws Exception {
-        UserProfile profile = new UserProfile("username", "test@mail.ru", "Name", "Surname");
-        mockMvc.perform(put("/api/v1/users/update/profile")
+        UserUpdateDTO profile = new UserUpdateDTO("username", "test@mail.ru", "Name", "Surname");
+        mockMvc.perform(put("/api/v1/users/profile")
                         .content(objectMapper.writeValueAsString(profile))
                         .contentType(MediaType.APPLICATION_JSON)
                         .headers(getAuthHeader()))
@@ -75,8 +75,8 @@ class UserControllerTest {
 
     @Test
     void updateUserProfileNotUniqueUsername() throws Exception {
-        UserProfile profile = new UserProfile("user2", "test@mail.ru", "Name", "Surname");
-        mockMvc.perform(put("/api/v1/users/update/profile")
+        UserUpdateDTO profile = new UserUpdateDTO("user1", "test@mail.ru", "Name", "Surname");
+        mockMvc.perform(put("/api/v1/users/profile")
                         .content(objectMapper.writeValueAsString(profile))
                         .contentType(MediaType.APPLICATION_JSON)
                         .headers(getAuthHeader()))
@@ -85,8 +85,8 @@ class UserControllerTest {
 
     @Test
     void updateUserBlankPass() throws Exception {
-        PassRequest request = new PassRequest("");
-        mockMvc.perform(patch("/api/v1/users/update/password")
+        UserUpdatePassDTO request = new UserUpdatePassDTO("");
+        mockMvc.perform(patch("/api/v1/users/password")
                         .content(objectMapper.writeValueAsString(request))
                         .contentType(MediaType.APPLICATION_JSON)
                         .headers(getAuthHeader()))

@@ -8,6 +8,7 @@ import com.github.rusichpt.Messenger.services.ChatService;
 import com.github.rusichpt.Messenger.services.MessageService;
 import com.github.rusichpt.Messenger.services.UserService;
 import lombok.extern.slf4j.Slf4j;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -62,5 +63,10 @@ public class WebConfig {
             }
             log.info("DataLoader loaded data");
         };
+    }
+
+    @Bean
+    public ModelMapper modelMapper() {
+        return new ModelMapper();
     }
 }

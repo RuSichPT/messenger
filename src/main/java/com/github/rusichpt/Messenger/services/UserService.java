@@ -1,5 +1,6 @@
 package com.github.rusichpt.Messenger.services;
 
+import com.github.rusichpt.Messenger.dto.UserUpdateDTO;
 import com.github.rusichpt.Messenger.entities.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -18,11 +19,12 @@ public interface UserService extends UserDetailsService {
 
     List<User> findAllUsers();
 
+    User updateUser(User user, UserUpdateDTO userUpdateDTO);
+
     User updateUser(User user);
 
     User updateUserPass(User user, String password);
 
     void deleteUser(User User);
 
-    void checkUniqueEmailAndUsername(String username, String email);
 }

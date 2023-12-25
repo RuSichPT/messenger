@@ -1,6 +1,5 @@
 package com.github.rusichpt.Messenger.entities;
 
-import com.github.rusichpt.Messenger.dto.UserProfile;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -37,17 +36,6 @@ public class User implements UserDetails {
     private String surname;
     private boolean emailConfirmed;
     private String confirmationCode;
-
-    public void setProfile(UserProfile profile) {
-        username = profile.getUsername();
-        email = profile.getEmail();
-        name = profile.getName();
-        surname = profile.getSurname();
-    }
-
-    public UserProfile getProfile() {
-        return new UserProfile(username, email, name, surname);
-    }
 
     @Override
     public String getPassword() {

@@ -1,11 +1,14 @@
 package com.github.rusichpt.Messenger.services.impl;
 
-import com.github.rusichpt.Messenger.dto.UserProfile;
+import com.github.rusichpt.Messenger.dto.UserUpdateDTO;
 import com.github.rusichpt.Messenger.entities.User;
+import com.github.rusichpt.Messenger.services.EmailService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,21 +21,26 @@ class UserServiceImplTest {
 
     private final UserServiceImpl service;
     private final PasswordEncoder encoder;
+
+    @MockBean // заменяем реальный сервис, чтобы не спамить почту на несуществующий адрес.
+    private final EmailService emailService;
+
     private final User user = new User(null, "test@mail.ru", "123",
             "username", "Pavel", "Tokarev", true, UUID.randomUUID().toString());
 
     @Autowired
-    public UserServiceImplTest(UserServiceImpl service, PasswordEncoder encoder) {
+    public UserServiceImplTest(UserServiceImpl service, PasswordEncoder encoder, ModelMapper mapper, EmailService emailService) {
         this.service = service;
         this.encoder = encoder;
+        this.emailService = emailService;
     }
 
     @Test
     void save() {
-        User savedUser = service.createUser(user);
-        user.setId(savedUser.getId());
+        User createdUser = service.createUser(user);
+        user.setId(createdUser.getId());
 
-        Assertions.assertEquals(user, savedUser);
+        Assertions.assertEquals(user, createdUser);
     }
 
     @Test
@@ -46,23 +54,25 @@ class UserServiceImplTest {
     @Test
     void delete() {
         Assertions.assertThrows(UsernameNotFoundException.class, () -> {
-            User savedUser = service.createUser(user);
-            service.deleteUser(savedUser);
-            service.findUserById(savedUser.getId());
+            User createdUser = service.createUser(user);
+            service.deleteUser(createdUser);
+            service.findUserById(createdUser.getId());
         });
     }
 
     @Test
     void updateUser() {
         User createdUser = service.createUser(user);
-        UserProfile profile = createdUser.getProfile();
-        profile.setUsername("testUsername");
-        profile.setSurname("Ivanov");
-        createdUser.setProfile(profile);
+        UserUpdateDTO userUpdateDTO = UserUpdateDTO.builder()
+                .username("username1")
+                .email("test1@mail.ru")
+                .name("testUsername")
+                .surname("Ivanov")
+                .build();
 
-        User savedUser = service.updateUser(createdUser);
+        User savedUser = service.updateUser(createdUser, userUpdateDTO);
 
-        Assertions.assertEquals(profile, savedUser.getProfile());
+        Assertions.assertEquals(savedUser.getName(), userUpdateDTO.getName());
     }
 
     @Test
