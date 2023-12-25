@@ -1,8 +1,6 @@
 package com.github.rusichpt.Messenger.configs;
 
 import com.github.rusichpt.Messenger.advice.exceptions.UserExistsException;
-import com.github.rusichpt.Messenger.entities.Chat;
-import com.github.rusichpt.Messenger.entities.Message;
 import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.ChatService;
 import com.github.rusichpt.Messenger.services.MessageService;
@@ -39,24 +37,14 @@ public class WebConfig {
                 userService.createUser(user1);
                 userService.createUser(user2);
 
-                Chat chat = new Chat(user1, user2);
-                chatService.createChat(chat);
-
-                Message message1 = new Message(user1, chat, "Привет user2");
                 Thread.sleep(1);
-                messageService.sendMessage(message1);
-
-                Message message2 = new Message(user2, chat, "Привет user1, как дела?");
+                messageService.sendMessage(user1, user2, "Привет user2");
                 Thread.sleep(1);
-                messageService.sendMessage(message2);
-
-                Message message3 = new Message(user1, chat, "Нормально, ты как?");
+                messageService.sendMessage(user2, user1, "Привет user1, как дела?");
                 Thread.sleep(1);
-                messageService.sendMessage(message3);
-
-                Message message4 = new Message(user2, chat, "Хорошо!");
+                messageService.sendMessage(user1, user2, "Нормально, ты как?");
                 Thread.sleep(1);
-                messageService.sendMessage(message4);
+                messageService.sendMessage(user2, user1, "Хорошо!");
 
             } catch (UserExistsException e) {
                 log.info(e.getMessage());
