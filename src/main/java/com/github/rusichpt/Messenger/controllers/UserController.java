@@ -6,7 +6,6 @@ import com.github.rusichpt.Messenger.dto.UserUpdateDTO;
 import com.github.rusichpt.Messenger.dto.UserUpdatePassDTO;
 import com.github.rusichpt.Messenger.entities.User;
 import com.github.rusichpt.Messenger.services.ChatService;
-import com.github.rusichpt.Messenger.services.EmailService;
 import com.github.rusichpt.Messenger.services.UserService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
@@ -29,7 +28,6 @@ import org.springframework.web.bind.annotation.*;
 public class UserController {
     private final UserService userService;
     private final ChatService chatService;
-    private final EmailService emailService;
     private final ModelMapper modelMapper;
 
     @PostMapping(path = "/registration")
@@ -67,11 +65,5 @@ public class UserController {
     public void deleteUser(@AuthenticationPrincipal User user) {
         chatService.deleteChatsByUser(user);
         userService.deleteUser(user);
-    }
-
-    @Operation(summary = "Send an email to confirm user email address")
-    @GetMapping(path = "/send-email")
-    public void sendEmailForConfirmation(@AuthenticationPrincipal User user) {
-        emailService.sendConfirmationCode(user);
     }
 }

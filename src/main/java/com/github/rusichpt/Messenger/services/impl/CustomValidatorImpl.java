@@ -7,8 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class SimpleCustomValidator implements CustomValidator {
-
+public class CustomValidatorImpl implements CustomValidator {
     private final UserRepository repo;
 
     @Override

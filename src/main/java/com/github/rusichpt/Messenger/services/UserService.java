@@ -27,4 +27,8 @@ public interface UserService extends UserDetailsService {
 
     void deleteUser(User User);
 
+    void sendConfirmationCode(User user);
+
+    void confirmEmail(Long userId, String code);
+
 }

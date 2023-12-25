@@ -9,6 +9,7 @@ import com.github.rusichpt.Messenger.services.EmailService;
 import com.github.rusichpt.Messenger.services.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -27,6 +28,9 @@ public class UserServiceImpl implements UserService {
     private final PasswordEncoder encoder;
     private final EmailService emailService;
     private final CustomValidator validator;
+
+    @Value("${host.url}")
+    private String host;
 
     @Override
     public UserDetails loadUserById(Long id) throws UsernameNotFoundException {
@@ -50,7 +54,7 @@ public class UserServiceImpl implements UserService {
         user.setConfirmationCode(UUID.randomUUID().toString());
         User createdUser = userRepo.save(user);
 
-        emailService.sendConfirmationCode(createdUser);
+        sendConfirmationCode(createdUser);
         log.info("User created: {}", createdUser);
 
         return createdUser;
@@ -86,7 +90,7 @@ public class UserServiceImpl implements UserService {
         if (!oldEmail.equals(userUpdateDTO.getEmail())) {
             user.setEmailConfirmed(false);
             user.setConfirmationCode(UUID.randomUUID().toString());
-            emailService.sendConfirmationCode(user);
+            sendConfirmationCode(user);
         }
 
         User savedUser = userRepo.save(user);
@@ -114,6 +118,23 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(User user) {
         userRepo.deleteById(user.getId());
         log.info("User deleted: {}", user);
+    }
+
+    @Override
+    public void sendConfirmationCode(User user) {
+        String message = String.format("Hello, %s! \n" +
+                "Welcome to Messenger. Please, visit next link:" + host + "/api/v1/confirm/%s/%s", user.getUsername(), user.getId(), user.getConfirmationCode());
+        emailService.sendSimpleEmail(user.getEmail(), "Confirmation code", message);
+    }
+
+    @Override
+    public void confirmEmail(Long userId, String code) {
+        User user = findUserById(userId);
+        if (user.getConfirmationCode().equals(code)) {
+            user.setEmailConfirmed(true);
+            updateUser(user);
+            log.info("User email confirmed");
+        }
     }
 
     private void checkUniqueEmailAndUsername(String email, String username) {
